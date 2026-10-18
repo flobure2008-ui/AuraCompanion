@@ -1,0 +1,482 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		B101 /* AppState.swift in Sources */ = {isa = PBXBuildFile; fileRef = F101 /* AppState.swift */; };
+		B102 /* AuraCompanionApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = F102 /* AuraCompanionApp.swift */; };
+		B103 /* ChatMessage.swift in Sources */ = {isa = PBXBuildFile; fileRef = F103 /* ChatMessage.swift */; };
+		B104 /* CompanionProfile.swift in Sources */ = {isa = PBXBuildFile; fileRef = F104 /* CompanionProfile.swift */; };
+		B105 /* GeminiModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = F105 /* GeminiModels.swift */; };
+		B106 /* MemoryItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = F106 /* MemoryItem.swift */; };
+		B107 /* ThemeConfiguration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F107 /* ThemeConfiguration.swift */; };
+		B108 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F108 /* Assets.xcassets */; };
+		B109 /* AudioPlaybackService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F109 /* AudioPlaybackService.swift */; };
+		B110 /* GeminiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F110 /* GeminiService.swift */; };
+		B111 /* HapticsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F111 /* HapticsService.swift */; };
+		B112 /* SpeechService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F112 /* SpeechService.swift */; };
+		B113 /* StorageService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F113 /* StorageService.swift */; };
+		B114 /* ChatViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F114 /* ChatViewModel.swift */; };
+		B115 /* CompanionCustomizerViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F115 /* CompanionCustomizerViewModel.swift */; };
+		B116 /* VoiceCallViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F116 /* VoiceCallViewModel.swift */; };
+		B117 /* MainTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F117 /* MainTabView.swift */; };
+		B118 /* ChatInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = F118 /* ChatInputBar.swift */; };
+		B119 /* ChatView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F119 /* ChatView.swift */; };
+		B120 /* MarkdownTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F120 /* MarkdownTextView.swift */; };
+		B121 /* MessageBubbleView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F121 /* MessageBubbleView.swift */; };
+		B122 /* AvatarSelectorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F122 /* AvatarSelectorView.swift */; };
+		B123 /* CompanionEditorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F123 /* CompanionEditorView.swift */; };
+		B124 /* CompanionProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F124 /* CompanionProfileView.swift */; };
+		B125 /* AmbientOrbView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F125 /* AmbientOrbView.swift */; };
+		B126 /* GlassCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = F126 /* GlassCard.swift */; };
+		B127 /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F127 /* WaveformView.swift */; };
+		B128 /* AddMemorySheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = F128 /* AddMemorySheet.swift */; };
+		B129 /* MemoryCoreView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F129 /* MemoryCoreView.swift */; };
+		B130 /* OnboardingFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F130 /* OnboardingFlowView.swift */; };
+		B131 /* APIKeyConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F131 /* APIKeyConfigView.swift */; };
+		B132 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F132 /* SettingsView.swift */; };
+		B133 /* VoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F133 /* VoiceCallView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		A001 /* AuraCompanion.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AuraCompanion.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		F101 /* AppState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppState.swift; sourceTree = "<group>"; };
+		F102 /* AuraCompanionApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuraCompanionApp.swift; sourceTree = "<group>"; };
+		F103 /* ChatMessage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatMessage.swift; sourceTree = "<group>"; };
+		F104 /* CompanionProfile.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionProfile.swift; sourceTree = "<group>"; };
+		F105 /* GeminiModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiModels.swift; sourceTree = "<group>"; };
+		F106 /* MemoryItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryItem.swift; sourceTree = "<group>"; };
+		F107 /* ThemeConfiguration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeConfiguration.swift; sourceTree = "<group>"; };
+		F108 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F109 /* AudioPlaybackService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioPlaybackService.swift; sourceTree = "<group>"; };
+		F110 /* GeminiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GeminiService.swift; sourceTree = "<group>"; };
+		F111 /* HapticsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticsService.swift; sourceTree = "<group>"; };
+		F112 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
+		F113 /* StorageService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StorageService.swift; sourceTree = "<group>"; };
+		F114 /* ChatViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatViewModel.swift; sourceTree = "<group>"; };
+		F115 /* CompanionCustomizerViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionCustomizerViewModel.swift; sourceTree = "<group>"; };
+		F116 /* VoiceCallViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCallViewModel.swift; sourceTree = "<group>"; };
+		F117 /* MainTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabView.swift; sourceTree = "<group>"; };
+		F118 /* ChatInputBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatInputBar.swift; sourceTree = "<group>"; };
+		F119 /* ChatView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatView.swift; sourceTree = "<group>"; };
+		F120 /* MarkdownTextView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkdownTextView.swift; sourceTree = "<group>"; };
+		F121 /* MessageBubbleView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageBubbleView.swift; sourceTree = "<group>"; };
+		F122 /* AvatarSelectorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AvatarSelectorView.swift; sourceTree = "<group>"; };
+		F123 /* CompanionEditorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionEditorView.swift; sourceTree = "<group>"; };
+		F124 /* CompanionProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionProfileView.swift; sourceTree = "<group>"; };
+		F125 /* AmbientOrbView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AmbientOrbView.swift; sourceTree = "<group>"; };
+		F126 /* GlassCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlassCard.swift; sourceTree = "<group>"; };
+		F127 /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
+		F128 /* AddMemorySheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddMemorySheet.swift; sourceTree = "<group>"; };
+		F129 /* MemoryCoreView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryCoreView.swift; sourceTree = "<group>"; };
+		F130 /* OnboardingFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingFlowView.swift; sourceTree = "<group>"; };
+		F131 /* APIKeyConfigView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIKeyConfigView.swift; sourceTree = "<group>"; };
+		F132 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		F133 /* VoiceCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCallView.swift; sourceTree = "<group>"; };
+		F134 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		E001 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		G000 /* Main Root */ = {
+			isa = PBXGroup;
+			children = (
+				G001 /* AuraCompanion */,
+				G002 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		G001 /* AuraCompanion */ = {
+			isa = PBXGroup;
+			children = (
+				G101 /* App */,
+				G102 /* Models */,
+				G103 /* Services */,
+				G104 /* ViewModels */,
+				G105 /* Views */,
+				G106 /* Resources */,
+			);
+			path = AuraCompanion;
+			sourceTree = "<group>";
+		};
+		G002 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A001 /* AuraCompanion.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		G101 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				F101 /* AppState.swift */,
+				F102 /* AuraCompanionApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		G102 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F103 /* ChatMessage.swift */,
+				F104 /* CompanionProfile.swift */,
+				F105 /* GeminiModels.swift */,
+				F106 /* MemoryItem.swift */,
+				F107 /* ThemeConfiguration.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		G103 /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				F109 /* AudioPlaybackService.swift */,
+				F110 /* GeminiService.swift */,
+				F111 /* HapticsService.swift */,
+				F112 /* SpeechService.swift */,
+				F113 /* StorageService.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		G104 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+				F114 /* ChatViewModel.swift */,
+				F115 /* CompanionCustomizerViewModel.swift */,
+				F116 /* VoiceCallViewModel.swift */,
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		G105 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				F117 /* MainTabView.swift */,
+				G201 /* Chat */,
+				G202 /* Voice */,
+				G203 /* Companion */,
+				G204 /* Memory */,
+				G205 /* Settings */,
+				G206 /* Onboarding */,
+				G207 /* Components */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		G106 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F134 /* Info.plist */,
+				F108 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		G201 /* Chat */ = {
+			isa = PBXGroup;
+			children = (
+				F118 /* ChatInputBar.swift */,
+				F119 /* ChatView.swift */,
+				F120 /* MarkdownTextView.swift */,
+				F121 /* MessageBubbleView.swift */,
+			);
+			path = Chat;
+			sourceTree = "<group>";
+		};
+		G202 /* Voice */ = {
+			isa = PBXGroup;
+			children = (
+				F133 /* VoiceCallView.swift */,
+			);
+			path = Voice;
+			sourceTree = "<group>";
+		};
+		G203 /* Companion */ = {
+			isa = PBXGroup;
+			children = (
+				F122 /* AvatarSelectorView.swift */,
+				F123 /* CompanionEditorView.swift */,
+				F124 /* CompanionProfileView.swift */,
+			);
+			path = Companion;
+			sourceTree = "<group>";
+		};
+		G204 /* Memory */ = {
+			isa = PBXGroup;
+			children = (
+				F128 /* AddMemorySheet.swift */,
+				F129 /* MemoryCoreView.swift */,
+			);
+			path = Memory;
+			sourceTree = "<group>";
+		};
+		G205 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				F131 /* APIKeyConfigView.swift */,
+				F132 /* SettingsView.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		G206 /* Onboarding */ = {
+			isa = PBXGroup;
+			children = (
+				F130 /* OnboardingFlowView.swift */,
+			);
+			path = Onboarding;
+			sourceTree = "<group>";
+		};
+		G207 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				F125 /* AmbientOrbView.swift */,
+				F126 /* GlassCard.swift */,
+				F127 /* WaveformView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		T001 /* AuraCompanion */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = C001 /* Build configuration list for PBXNativeTarget "AuraCompanion" */;
+			buildPhases = (
+				S001 /* Sources */,
+				E001 /* Frameworks */,
+				R001 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = AuraCompanion;
+			productName = AuraCompanion;
+			productReference = A001 /* AuraCompanion.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		P001 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1500;
+				LastUpgradeCheck = 1500;
+				TargetAttributes = {
+					T001 = {
+						CreatedOnToolsVersion = 15.0;
+					};
+				};
+			};
+			buildConfigurationList = C002 /* Build configuration list for PBXProject "AuraCompanion" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = fr;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				fr,
+				Base,
+			);
+			mainGroup = G000;
+			productRefGroup = G002 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				T001 /* AuraCompanion */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		R001 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B108 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		S001 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				B101 /* AppState.swift in Sources */,
+				B102 /* AuraCompanionApp.swift in Sources */,
+				B103 /* ChatMessage.swift in Sources */,
+				B104 /* CompanionProfile.swift in Sources */,
+				B105 /* GeminiModels.swift in Sources */,
+				B106 /* MemoryItem.swift in Sources */,
+				B107 /* ThemeConfiguration.swift in Sources */,
+				B109 /* AudioPlaybackService.swift in Sources */,
+				B110 /* GeminiService.swift in Sources */,
+				B111 /* HapticsService.swift in Sources */,
+				B112 /* SpeechService.swift in Sources */,
+				B113 /* StorageService.swift in Sources */,
+				B114 /* ChatViewModel.swift in Sources */,
+				B115 /* CompanionCustomizerViewModel.swift in Sources */,
+				B116 /* VoiceCallViewModel.swift in Sources */,
+				B117 /* MainTabView.swift in Sources */,
+				B118 /* ChatInputBar.swift in Sources */,
+				B119 /* ChatView.swift in Sources */,
+				B120 /* MarkdownTextView.swift in Sources */,
+				B121 /* MessageBubbleView.swift in Sources */,
+				B122 /* AvatarSelectorView.swift in Sources */,
+				B123 /* CompanionEditorView.swift in Sources */,
+				B124 /* CompanionProfileView.swift in Sources */,
+				B125 /* AmbientOrbView.swift in Sources */,
+				B126 /* GlassCard.swift in Sources */,
+				B127 /* WaveformView.swift in Sources */,
+				B128 /* AddMemorySheet.swift in Sources */,
+				B129 /* MemoryCoreView.swift in Sources */,
+				B130 /* OnboardingFlowView.swift in Sources */,
+				B131 /* APIKeyConfigView.swift in Sources */,
+				B132 /* SettingsView.swift in Sources */,
+				B133 /* VoiceCallView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		XC01 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		XC02 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		XC03 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AuraCompanion/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.auracompanion.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		XC04 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = NO;
+				INFOPLIST_FILE = AuraCompanion/Resources/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.auracompanion.app;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		C001 /* Build configuration list for PBXNativeTarget "AuraCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				XC03 /* Debug */,
+				XC04 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		C002 /* Build configuration list for PBXProject "AuraCompanion" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				XC01 /* Debug */,
+				XC02 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+
+	};
+	rootObject = P001 /* Project object */;
+}

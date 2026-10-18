@@ -1,0 +1,59 @@
+name: Build iOS App (Cloud CI)
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Compile iOS Application on macOS Runner
+    runs-on: macos-14
+    
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Xcode Version
+        run: |
+          echo "Sélection de la version Xcode..."
+          sudo xcode-select -s /Applications/Xcode_15.4.app || sudo xcode-select -s /Applications/Xcode.app
+          xcodebuild -version
+
+      - name: Build iOS App (.app) for iPhone
+        run: |
+          xcodebuild \
+            -project AuraCompanion.xcodeproj \
+            -scheme AuraCompanion \
+            -sdk iphoneos \
+            -configuration Release \
+            -derivedDataPath build_dir \
+            CODE_SIGNING_ALLOWED=NO \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGN_IDENTITY="" \
+            clean build
+
+      - name: Package App into .IPA file
+        run: |
+          mkdir -p Payload
+          cp -r build_dir/Build/Products/Release-iphoneos/AuraCompanion.app Payload/
+          zip -r -y AuraCompanion.ipa Payload
+          ls -lh AuraCompanion.ipa
+
+      - name: Upload .IPA Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: AuraCompanion-iOS-Package
+          path: AuraCompanion.ipa
+          retention-days: 14
+
+      - name: Build for iOS Simulator (Verification)
+        run: |
+          xcodebuild \
+            -project AuraCompanion.xcodeproj \
+            -scheme AuraCompanion \
+            -destination "generic/platform=iOS Simulator" \
+            -configuration Release \
+            clean build
