@@ -95,7 +95,10 @@ public final class ChatViewModel: ObservableObject {
         do {
             let fullReply = try await geminiService.streamGenerateContent(
                 apiKey: appState.apiKey,
+                provider: appState.provider,
                 model: appState.selectedModel,
+                customModelName: appState.customModelName,
+                customEndpoint: appState.customEndpoint,
                 systemInstruction: systemPrompt,
                 history: currentSession.messages.dropLast(), // sans le message de streaming
                 userPrompt: promptToSend,

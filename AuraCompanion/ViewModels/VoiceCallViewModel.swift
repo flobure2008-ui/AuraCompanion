@@ -116,7 +116,10 @@ public final class VoiceCallViewModel: ObservableObject {
         do {
             let response = try await GeminiService.shared.streamGenerateContent(
                 apiKey: appState.apiKey,
+                provider: appState.provider,
                 model: appState.selectedModel,
+                customModelName: appState.customModelName,
+                customEndpoint: appState.customEndpoint,
                 systemInstruction: systemPrompt + "\nIMPORTANT: Tu es en mode appel vocal temps réel. Sois concis, direct et très naturel à l'oral, sans puces ni markdown complexe.",
                 history: session.messages,
                 userPrompt: query,

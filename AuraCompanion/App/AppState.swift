@@ -6,8 +6,20 @@ public final class AppState: ObservableObject {
         didSet { storage.apiKey = apiKey }
     }
     
+    @Published public var provider: AIProvider {
+        didSet { storage.provider = provider }
+    }
+    
     @Published public var selectedModel: GeminiModel {
         didSet { storage.selectedModel = selectedModel }
+    }
+    
+    @Published public var customModelName: String {
+        didSet { storage.customModelName = customModelName }
+    }
+    
+    @Published public var customEndpoint: String {
+        didSet { storage.customEndpoint = customEndpoint }
     }
     
     @Published public var companionProfile: CompanionProfile {
@@ -42,7 +54,10 @@ public final class AppState: ObservableObject {
     
     public init() {
         self.apiKey = storage.apiKey
+        self.provider = storage.provider
         self.selectedModel = storage.selectedModel
+        self.customModelName = storage.customModelName
+        self.customEndpoint = storage.customEndpoint
         self.companionProfile = storage.loadProfile()
         self.memories = storage.loadMemories()
         let loadedSessions = storage.loadSessions()

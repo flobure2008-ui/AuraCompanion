@@ -13,7 +13,7 @@ public struct SettingsView: View {
                 
                 ScrollView {
                     VStack(spacing: 20) {
-                        // Section 1: Clé API
+                        // Section 1: Clé API & Fournisseur
                         APIKeyConfigView()
                         
                         // Section 2: Sélection du Modèle
@@ -55,7 +55,7 @@ public struct SettingsView: View {
     // MARK: - Modèles
     private var modelSelectionSection: some View {
         VStack(alignment: .leading, spacing: 14) {
-            Text("Modèle Gemini")
+            Text("Modèle d'Intelligence Artificielle")
                 .font(.system(size: 15, weight: .semibold))
                 .foregroundColor(.white.opacity(0.85))
             
@@ -91,6 +91,21 @@ public struct SettingsView: View {
                         )
                     }
                 }
+            }
+            
+            // Si modèle personnalisé ou OpenAI sélectionné
+            if appState.selectedModel == .custom || appState.provider == .openAICompatible {
+                VStack(alignment: .leading, spacing: 6) {
+                    Text("Nom exact du modèle (ex: gemini-2.0-flash, gpt-4o-mini, deepseek-chat)")
+                        .font(.caption)
+                        .foregroundColor(.white.opacity(0.6))
+                    
+                    TextField("Identifiant du modèle", text: $appState.customModelName)
+                        .padding(12)
+                        .glassCard(cornerRadius: 12)
+                        .foregroundColor(.white)
+                }
+                .padding(.top, 4)
             }
         }
         .padding(16)
@@ -215,7 +230,7 @@ public struct SettingsView: View {
                 .font(.system(size: 14, weight: .bold))
                 .foregroundColor(.white.opacity(0.8))
             
-            Text("Version 1.0 • Propulsé par Google Gemini 1.5 & 2.0")
+            Text("Version 1.1 • Modèles Gemini 2.0 & 1.5 + Secours Universel")
                 .font(.system(size: 11))
                 .foregroundColor(.white.opacity(0.5))
         }

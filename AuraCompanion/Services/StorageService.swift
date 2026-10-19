@@ -6,7 +6,10 @@ public final class StorageService {
     private let defaults = UserDefaults.standard
     
     private let keyApiKey = "aura_gemini_api_key"
+    private let keyProvider = "aura_ai_provider"
     private let keySelectedModel = "aura_selected_model"
+    private let keyCustomModelName = "aura_custom_model_name"
+    private let keyCustomEndpoint = "aura_custom_endpoint"
     private let keyProfile = "aura_companion_profile"
     private let keyMemories = "aura_companion_memories"
     private let keySessions = "aura_chat_sessions"
@@ -22,6 +25,20 @@ public final class StorageService {
         set { defaults.set(newValue, forKey: keyApiKey) }
     }
     
+    // MARK: - Provider
+    public var provider: AIProvider {
+        get {
+            if let saved = defaults.string(forKey: keyProvider),
+               let prov = AIProvider(rawValue: saved) {
+                return prov
+            }
+            return .googleGemini
+        }
+        set {
+            defaults.set(newValue.rawValue, forKey: keyProvider)
+        }
+    }
+    
     // MARK: - Selected Gemini Model
     public var selectedModel: GeminiModel {
         get {
@@ -29,11 +46,22 @@ public final class StorageService {
                let model = GeminiModel(rawValue: saved) {
                 return model
             }
-            return .gemini15Flash
+            return .gemini20Flash
         }
         set {
             defaults.set(newValue.rawValue, forKey: keySelectedModel)
         }
+    }
+    
+    // MARK: - Custom Model / Endpoint
+    public var customModelName: String {
+        get { defaults.string(forKey: keyCustomModelName) ?? "gemini-2.0-flash" }
+        set { defaults.set(newValue, forKey: keyCustomModelName) }
+    }
+    
+    public var customEndpoint: String {
+        get { defaults.string(forKey: keyCustomEndpoint) ?? "" }
+        set { defaults.set(newValue, forKey: keyCustomEndpoint) }
     }
     
     // MARK: - User Name
@@ -83,11 +111,10 @@ public final class StorageService {
            let list = try? JSONDecoder().decode([MemoryItem].self, from: data) {
             return list
         }
-        // Exemples par défaut pour découvrir la fonctionnalité
         return [
             MemoryItem(category: .userFact, key: "Prénom", value: userName),
             MemoryItem(category: .preference, key: "Style d'interaction", value: "Curieux, philosophique et direct"),
-            MemoryItem(category: .lifeGoal, key: "Objectif du moment", value: "Explorer l'IA de nouvelle génération")
+            MemoryItem(category: .lifeGoal, key: "Objectif du moment", value: "Découvrir et personnaliser mon IA")
         ]
     }
     
@@ -104,10 +131,9 @@ public final class StorageService {
             return sessions
         }
         
-        // Session initiale avec un mot de bienvenue de Aura
         let initialMessage = ChatMessage(
             sender: .companion,
-            content: "Bonjour ! ✨ Je suis votre compagnon IA propulsé par Gemini. Vous pouvez me poser des questions, me confier vos pensées, m'envoyer des photos ou même basculer en mode appel vocal en direct. Comment allez-vous aujourd'hui ?",
+            content: "Bonjour ! ✨ Je suis votre compagnon IA connecté à Gemini. Comment allez-vous aujourd'hui ?",
             moodResonance: .joyful
         )
         let initialSession = ConversationSession(
