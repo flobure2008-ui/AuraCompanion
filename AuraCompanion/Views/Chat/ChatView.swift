@@ -245,3 +245,82 @@ public struct ChatView: View {
         .buttonStyle(LiquidButtonStyle())
     }
 }
+
+// MARK: - Session History Sheet
+public struct SessionHistorySheet: View {
+    @EnvironmentObject var appState: AppState
+    @Environment(\.dismiss) var dismiss
+    
+    public var body: some View {
+        NavigationStack {
+            ZStack {
+                LiquidBackgroundView(
+                    primaryColor: appState.theme.primaryAccent,
+                    secondaryColor: appState.theme.secondaryAccent
+                )
+                
+                List {
+                    Section {
+                        Button {
+                            _ = appState.createNewSession()
+                            HapticsService.medium()
+                            dismiss()
+                        } label: {
+                            HStack {
+                                Image(systemName: "plus.bubble.fill")
+                                    .foregroundColor(appState.theme.primaryAccent)
+                                Text("Nouvelle conversation")
+                                    .fontWeight(.bold)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                        .listRowBackground(Color.white.opacity(0.08))
+                    }
+                    
+                    Section("Conversations précédentes") {
+                        ForEach(appState.sessions) { session in
+                            Button {
+                                appState.currentSessionId = session.id
+                                HapticsService.light()
+                                dismiss()
+                            } label: {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    HStack {
+                                        Text(session.title)
+                                            .font(.system(size: 15, weight: .semibold))
+                                            .foregroundColor(.white)
+                                        Spacer()
+                                        if session.id == appState.currentSessionId {
+                                            Image(systemName: "checkmark")
+                                                .foregroundColor(appState.theme.primaryAccent)
+                                        }
+                                    }
+                                    Text(session.previewSnippet)
+                                        .font(.system(size: 12))
+                                        .foregroundColor(.white.opacity(0.6))
+                                        .lineLimit(1)
+                                }
+                                .padding(.vertical, 4)
+                            }
+                            .listRowBackground(Color.white.opacity(0.06))
+                        }
+                        .onDelete { indexSet in
+                            for index in indexSet {
+                                appState.deleteSession(appState.sessions[index])
+                            }
+                        }
+                    }
+                }
+                .scrollContentBackground(.hidden)
+            }
+            .navigationTitle("Conversations")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .cancellationAction) {
+                    Button("Fermer") { dismiss() }
+                        .foregroundColor(.white)
+                }
+            }
+        }
+    }
+}
