@@ -3,35 +3,32 @@ import SwiftUI
 public struct WaveformView: View {
     public var audioLevel: Float
     public var tint: Color
-    public var barCount: Int = 18
+    public var barCount: Int = 16
     
-    @State private var phase: Double = 0
-    
-    public init(audioLevel: Float, tint: Color = .purple, barCount: Int = 18) {
+    public init(audioLevel: Float, tint: Color = .purple, barCount: Int = 16) {
         self.audioLevel = audioLevel
         self.tint = tint
         self.barCount = barCount
     }
     
     public var body: some View {
-        HStack(spacing: 4) {
+        HStack(spacing: 3.5) {
             ForEach(0..<barCount, id: \.self) { index in
-                let normalizedIndex = Double(index) / Double(barCount)
-                let heightMultiplier = sin(normalizedIndex * .pi)
-                let dynamicHeight = max(4.0, CGFloat(audioLevel * 45) * CGFloat(heightMultiplier) + CGFloat.random(in: 3...8))
+                let factor = sin(Double(index) / Double(barCount - 1) * .pi)
+                let height = max(4.0, CGFloat(audioLevel * 38) * CGFloat(factor) + CGFloat(factor * 6.0))
                 
-                RoundedRectangle(cornerRadius: 3)
+                Capsule()
                     .fill(
                         LinearGradient(
-                            colors: [tint.opacity(0.6), tint],
+                            colors: [tint.opacity(0.5), tint],
                             startPoint: .bottom,
                             endPoint: .top
                         )
                     )
-                    .frame(width: 3.5, height: dynamicHeight)
-                    .animation(.spring(response: 0.15, dampingFraction: 0.6), value: audioLevel)
+                    .frame(width: 3.5, height: height)
             }
         }
-        .frame(height: 50)
+        .frame(height: 42)
+        .animation(.spring(response: 0.18, dampingFraction: 0.7), value: audioLevel)
     }
 }
