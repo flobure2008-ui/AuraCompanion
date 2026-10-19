@@ -5,76 +5,91 @@ public struct MessageBubbleView: View {
     public let profile: CompanionProfile
     public let onReadAloud: () -> Void
     
-    @State private var showActions = false
-    
     public var body: some View {
         HStack(alignment: .bottom, spacing: 10) {
             if message.sender == .companion {
-                // Avatar vignette
-                CompanionAvatarThumbnail(profile: profile, size: 34)
+                // Miniature du compagnon
+                CompanionAvatarThumbnail(profile: profile, size: 36)
             } else {
                 Spacer(minLength: 40)
             }
             
             VStack(alignment: message.sender == .user ? .trailing : .leading, spacing: 6) {
-                // Aperçu de l'image si attachée
+                // Image attachée si présente
                 if let imgData = message.imageData, let uiImage = UIImage(data: imgData) {
                     Image(uiImage: uiImage)
                         .resizable()
                         .scaledToFill()
                         .frame(maxWidth: 240, maxHeight: 180)
-                        .clipShape(RoundedRectangle(cornerRadius: 16))
+                        .clipShape(RoundedRectangle(cornerRadius: 18))
                         .overlay(
-                            RoundedRectangle(cornerRadius: 16)
-                                .stroke(Color.white.opacity(0.2), lineWidth: 1)
+                            RoundedRectangle(cornerRadius: 18)
+                                .strokeBorder(Color.white.opacity(0.3), lineWidth: 1.2)
                         )
                 }
                 
-                // Corps du message
+                // Bulle de message
                 if message.sender == .user {
                     Text(message.content)
-                        .font(.system(size: 15.5))
+                        .font(.system(size: 15.5, weight: .regular))
                         .foregroundColor(.white)
                         .padding(.horizontal, 16)
                         .padding(.vertical, 12)
                         .background(
-                            LinearGradient(
-                                colors: [Color(hex: "7C3AED"), Color(hex: "6366F1")],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
+                            ZStack {
+                                LinearGradient(
+                                    colors: [Color(hex: "7C3AED"), Color(hex: "4F46E5")],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                                
+                                LinearGradient(
+                                    colors: [Color.white.opacity(0.2), Color.clear],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            }
                         )
-                        .cornerRadius(18, corners: [.topLeft, .topRight, .bottomLeft])
+                        .clipShape(RoundedRectangle(cornerRadius: 20, style: .continuous))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20, style: .continuous)
+                                .strokeBorder(Color.white.opacity(0.25), lineWidth: 1)
+                        )
+                        .shadow(color: Color(hex: "7C3AED").opacity(0.35), radius: 10, y: 4)
                 } else {
                     VStack(alignment: .leading, spacing: 8) {
                         if message.isStreaming && message.content.isEmpty {
-                            // Indicateur de réflexion
-                            HStack(spacing: 5) {
-                                Circle().fill(Color.purple).frame(width: 7, height: 7)
-                                Circle().fill(Color.pink).frame(width: 7, height: 7)
-                                Circle().fill(Color.blue).frame(width: 7, height: 7)
+                            // Pulsation de réflexion liquide
+                            HStack(spacing: 6) {
+                                ForEach(0..<3) { i in
+                                    Circle()
+                                        .fill(profile.currentMood.accentColors.first ?? Color.purple)
+                                        .frame(width: 8, height: 8)
+                                        .scaleEffect(1.1)
+                                }
                             }
-                            .padding(.vertical, 8)
+                            .padding(.vertical, 6)
                         } else {
-                            MarkdownTextView(text: message.content)
+                            MarkdownTextView(text: message.content, accentColor: profile.currentMood.accentColors.first ?? .purple)
                         }
                     }
                     .padding(.horizontal, 16)
                     .padding(.vertical, 12)
-                    .glassCard(cornerRadius: 18, strokeColor: Color.white.opacity(0.12))
-                    .cornerRadius(18, corners: [.topLeft, .topRight, .bottomRight])
+                    .liquidGlass(cornerRadius: 20, glowColor: profile.currentMood.accentColors.first ?? Color(hex: "9D5CFF"), opacity: 0.12)
                 }
                 
-                // Barre d'actions sous le message du compagnon
+                // Barre d'outils du compagnon
                 if message.sender == .companion && !message.isStreaming && !message.content.isEmpty {
                     HStack(spacing: 14) {
                         if let mood = message.moodResonance {
                             HStack(spacing: 4) {
                                 Text(mood.emoji)
                                 Text(mood.rawValue)
-                                    .font(.system(size: 11, weight: .medium))
+                                    .font(.system(size: 11, weight: .semibold))
                             }
-                            .foregroundColor(.white.opacity(0.6))
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 2)
+                            .liquidGlassPill(glowColor: mood.accentColors.first ?? .purple)
                         }
                         
                         Spacer()
@@ -84,8 +99,10 @@ public struct MessageBubbleView: View {
                             HapticsService.light()
                         } label: {
                             Image(systemName: "speaker.wave.2.fill")
-                                .font(.system(size: 13))
-                                .foregroundColor(.white.opacity(0.7))
+                                .font(.system(size: 12))
+                                .foregroundColor(.white.opacity(0.8))
+                                .padding(6)
+                                .liquidGlass(cornerRadius: 8, opacity: 0.08)
                         }
                         
                         Button {
@@ -93,88 +110,29 @@ public struct MessageBubbleView: View {
                             HapticsService.light()
                         } label: {
                             Image(systemName: "doc.on.doc")
-                                .font(.system(size: 13))
-                                .foregroundColor(.white.opacity(0.7))
+                                .font(.system(size: 12))
+                                .foregroundColor(.white.opacity(0.8))
+                                .padding(6)
+                                .liquidGlass(cornerRadius: 8, opacity: 0.08)
                         }
                         
                         ShareLink(item: message.content) {
                             Image(systemName: "square.and.arrow.up")
-                                .font(.system(size: 13))
-                                .foregroundColor(.white.opacity(0.7))
+                                .font(.system(size: 12))
+                                .foregroundColor(.white.opacity(0.8))
+                                .padding(6)
+                                .liquidGlass(cornerRadius: 8, opacity: 0.08)
                         }
                     }
                     .padding(.horizontal, 4)
                 }
             }
             
-            if message.sender == .user {
-                // Espace vide à droite
-            } else {
+            if message.sender != .user {
                 Spacer(minLength: 30)
             }
         }
         .padding(.horizontal, 16)
         .padding(.vertical, 4)
-    }
-}
-
-// MARK: - Companion Avatar Thumbnail
-public struct CompanionAvatarThumbnail: View {
-    public let profile: CompanionProfile
-    public var size: CGFloat = 36
-    
-    public var body: some View {
-        Group {
-            if let imgData = profile.customImageData, let uiImg = UIImage(data: imgData) {
-                Image(uiImage: uiImg)
-                    .resizable()
-                    .scaledToFill()
-                    .frame(width: size, height: size)
-                    .clipShape(Circle())
-            } else if profile.avatarPreset == .customEmoji {
-                Text(profile.customEmoji)
-                    .font(.system(size: size * 0.55))
-                    .frame(width: size, height: size)
-                    .background(Color.white.opacity(0.12))
-                    .clipShape(Circle())
-            } else {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: profile.avatarPreset.gradientColors,
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: size, height: size)
-                    .overlay(
-                        Image(systemName: profile.avatarPreset.symbolIcon)
-                            .font(.system(size: size * 0.45, weight: .semibold))
-                            .foregroundColor(.white)
-                    )
-            }
-        }
-        .overlay(Circle().stroke(Color.white.opacity(0.2), lineWidth: 1))
-    }
-}
-
-// MARK: - Rounded Corner Helper
-extension View {
-    public func cornerRadius(_ radius: CGFloat, corners: UIRectCorner) -> some View {
-        clipShape(RoundedCornerShape(radius: radius, corners: corners))
-    }
-}
-
-public struct RoundedCornerShape: Shape {
-    var radius: CGFloat = .infinity
-    var corners: UIRectCorner = .allCorners
-
-    public func path(in rect: CGRect) -> Path {
-        let path = UIBezierPath(
-            roundedRect: rect,
-            byRoundingCorners: corners,
-            cornerRadii: CGSize(width: radius, height: radius)
-        )
-        return Path(path.cgPath)
     }
 }

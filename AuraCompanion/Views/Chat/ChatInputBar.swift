@@ -7,16 +7,16 @@ public struct ChatInputBar: View {
     
     public var body: some View {
         VStack(spacing: 8) {
-            // Aperçu de la photo sélectionnée
+            // Aperçu de la photo attachée
             if let imgData = viewModel.selectedImageData, let uiImage = UIImage(data: imgData) {
                 HStack {
                     ZStack(alignment: .topTrailing) {
                         Image(uiImage: uiImage)
                             .resizable()
                             .scaledToFill()
-                            .frame(width: 60, height: 60)
-                            .clipShape(RoundedRectangle(cornerRadius: 12))
-                            .overlay(RoundedRectangle(cornerRadius: 12).stroke(Color.white.opacity(0.3), lineWidth: 1))
+                            .frame(width: 64, height: 64)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                            .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(Color.white.opacity(0.4), lineWidth: 1))
                         
                         Button {
                             withAnimation {
@@ -26,23 +26,23 @@ public struct ChatInputBar: View {
                         } label: {
                             Image(systemName: "xmark.circle.fill")
                                 .foregroundColor(.white)
-                                .background(Circle().fill(Color.black.opacity(0.6)))
+                                .background(Circle().fill(Color.black.opacity(0.7)))
                         }
                         .offset(x: 6, y: -6)
                     }
                     Spacer()
                 }
-                .padding(.horizontal, 16)
+                .padding(.horizontal, 20)
             }
             
-            // Visualiseur vocal si le micro enregistre
+            // Visualiseur vocal si enregistrement actif
             if viewModel.speechService.isRecording {
                 HStack(spacing: 12) {
                     WaveformView(audioLevel: viewModel.speechService.audioLevel, tint: appState.theme.primaryAccent)
                     
-                    Text("Dictée vocale en cours...")
-                        .font(.system(size: 13, weight: .medium))
-                        .foregroundColor(.white.opacity(0.8))
+                    Text("À votre écoute...")
+                        .font(.system(size: 13, weight: .semibold))
+                        .foregroundColor(.white)
                     
                     Spacer()
                     
@@ -50,17 +50,17 @@ public struct ChatInputBar: View {
                         viewModel.toggleVoiceDictation()
                     } label: {
                         Image(systemName: "checkmark.circle.fill")
-                            .font(.system(size: 24))
+                            .font(.system(size: 26))
                             .foregroundColor(.green)
                     }
                 }
                 .padding(.horizontal, 16)
                 .padding(.vertical, 8)
-                .glassCard(cornerRadius: 16)
-                .padding(.horizontal, 12)
+                .liquidGlass(cornerRadius: 18, glowColor: .green, opacity: 0.15)
+                .padding(.horizontal, 14)
             }
             
-            // Barre principale
+            // Capsule principale de saisie en verre liquide
             HStack(alignment: .bottom, spacing: 10) {
                 // Bouton Photo
                 PhotosPicker(
@@ -69,11 +69,10 @@ public struct ChatInputBar: View {
                     photoLibrary: .shared()
                 ) {
                     Image(systemName: "photo.badge.plus")
-                        .font(.system(size: 20, weight: .medium))
-                        .foregroundColor(.white.opacity(0.75))
-                        .frame(width: 40, height: 40)
-                        .background(Color.white.opacity(0.08))
-                        .clipShape(Circle())
+                        .font(.system(size: 19, weight: .medium))
+                        .foregroundColor(.white.opacity(0.85))
+                        .frame(width: 42, height: 42)
+                        .liquidGlass(cornerRadius: 21, opacity: 0.1)
                 }
                 .onChange(of: viewModel.selectedItem) { newItem in
                     Task {
@@ -82,28 +81,31 @@ public struct ChatInputBar: View {
                 }
                 
                 // Champ texte
-                TextField("Message à \(appState.companionProfile.name)...", text: $viewModel.inputText, axis: .vertical)
+                TextField("Parlez avec \(appState.companionProfile.name)...", text: $viewModel.inputText, axis: .vertical)
                     .lineLimit(1...5)
                     .padding(.horizontal, 14)
                     .padding(.vertical, 10)
-                    .background(Color.white.opacity(0.07))
-                    .cornerRadius(20)
                     .foregroundColor(.white)
+                    .background(Color.white.opacity(0.04))
+                    .cornerRadius(18)
                     .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.white.opacity(0.12), lineWidth: 1)
+                        RoundedRectangle(cornerRadius: 18)
+                            .strokeBorder(Color.white.opacity(0.12), lineWidth: 1)
                     )
                 
-                // Bouton Dictée vocale
+                // Bouton Micro
                 Button {
                     viewModel.toggleVoiceDictation()
                 } label: {
                     Image(systemName: viewModel.speechService.isRecording ? "stop.fill" : "mic.fill")
-                        .font(.system(size: 18))
-                        .foregroundColor(viewModel.speechService.isRecording ? .red : .white.opacity(0.8))
-                        .frame(width: 40, height: 40)
-                        .background(viewModel.speechService.isRecording ? Color.red.opacity(0.2) : Color.white.opacity(0.08))
-                        .clipShape(Circle())
+                        .font(.system(size: 17))
+                        .foregroundColor(viewModel.speechService.isRecording ? .red : .white.opacity(0.85))
+                        .frame(width: 42, height: 42)
+                        .liquidGlass(
+                            cornerRadius: 21,
+                            glowColor: viewModel.speechService.isRecording ? .red : appState.theme.primaryAccent,
+                            opacity: viewModel.speechService.isRecording ? 0.25 : 0.1
+                        )
                 }
                 
                 // Bouton Envoyer
@@ -112,34 +114,35 @@ public struct ChatInputBar: View {
                         await viewModel.sendMessage(appState: appState)
                     }
                 } label: {
-                    Group {
+                    ZStack {
+                        Circle()
+                            .fill(
+                                LinearGradient(
+                                    colors: [appState.theme.primaryAccent, appState.theme.secondaryAccent],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 42, height: 42)
+                            .shadow(color: appState.theme.primaryAccent.opacity(0.5), radius: 10, y: 3)
+                        
                         if viewModel.isGenerating {
                             ProgressView()
                                 .progressViewStyle(CircularProgressViewStyle(tint: .white))
                         } else {
                             Image(systemName: "arrow.up")
-                                .font(.system(size: 18, weight: .bold))
+                                .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(.white)
                         }
                     }
-                    .frame(width: 40, height: 40)
-                    .background(
-                        LinearGradient(
-                            colors: [appState.theme.primaryAccent, appState.theme.secondaryAccent],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .clipShape(Circle())
-                    .shadow(color: appState.theme.primaryAccent.opacity(0.5), radius: 8, x: 0, y: 3)
                 }
                 .disabled(viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && viewModel.selectedImageData == nil || viewModel.isGenerating)
-                .opacity((viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && viewModel.selectedImageData == nil) ? 0.5 : 1.0)
+                .opacity((viewModel.inputText.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty && viewModel.selectedImageData == nil) ? 0.45 : 1.0)
             }
-            .padding(.horizontal, 14)
+            .padding(.horizontal, 12)
             .padding(.vertical, 8)
-            .glassCard(cornerRadius: 26)
-            .padding(.horizontal, 10)
+            .liquidGlass(cornerRadius: 28, glowColor: appState.theme.primaryAccent, opacity: 0.12)
+            .padding(.horizontal, 12)
             .padding(.bottom, 6)
         }
     }

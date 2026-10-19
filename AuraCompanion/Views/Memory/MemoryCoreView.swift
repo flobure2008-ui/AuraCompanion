@@ -19,7 +19,10 @@ public struct MemoryCoreView: View {
     public var body: some View {
         NavigationStack {
             ZStack {
-                appState.theme.backgroundGradient.ignoresSafeArea()
+                LiquidBackgroundView(
+                    primaryColor: appState.theme.primaryAccent,
+                    secondaryColor: appState.theme.secondaryAccent
+                )
                 
                 VStack(spacing: 12) {
                     // Carte explicative
@@ -91,7 +94,7 @@ public struct MemoryCoreView: View {
             Spacer()
         }
         .padding(14)
-        .glassCard(cornerRadius: 16)
+        .liquidGlass(cornerRadius: 18, glowColor: appState.theme.primaryAccent, opacity: 0.1)
         .padding(.horizontal, 16)
         .padding(.top, 4)
     }

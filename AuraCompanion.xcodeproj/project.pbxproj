@@ -40,6 +40,9 @@
 		B131 /* APIKeyConfigView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F131 /* APIKeyConfigView.swift */; };
 		B132 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F132 /* SettingsView.swift */; };
 		B133 /* VoiceCallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F133 /* VoiceCallView.swift */; };
+		B134 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F135 /* LiquidGlass.swift */; };
+		B135 /* LiquidBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136 /* LiquidBackgroundView.swift */; };
+		B136 /* LivingCompanionOrb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F137 /* LivingCompanionOrb.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -78,6 +81,9 @@
 		F132 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		F133 /* VoiceCallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VoiceCallView.swift; sourceTree = "<group>"; };
 		F134 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F135 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
+		F136 /* LiquidBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidBackgroundView.swift; sourceTree = "<group>"; };
+		F137 /* LivingCompanionOrb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingCompanionOrb.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -248,6 +254,9 @@
 				F125 /* AmbientOrbView.swift */,
 				F126 /* GlassCard.swift */,
 				F127 /* WaveformView.swift */,
+				F135 /* LiquidGlass.swift */,
+				F136 /* LiquidBackgroundView.swift */,
+				F137 /* LivingCompanionOrb.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -353,6 +362,9 @@
 				B131 /* APIKeyConfigView.swift in Sources */,
 				B132 /* SettingsView.swift in Sources */,
 				B133 /* VoiceCallView.swift in Sources */,
+				B134 /* LiquidGlass.swift in Sources */,
+				B135 /* LiquidBackgroundView.swift in Sources */,
+				B136 /* LivingCompanionOrb.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

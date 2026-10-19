@@ -2,13 +2,25 @@ import Foundation
 
 // MARK: - AI Provider
 public enum AIProvider: String, CaseIterable, Identifiable, Codable {
-    case googleGemini = "Google Gemini (Officiel)"
+    case freeBuiltIn = "Mode Gratuit Immédiat (Sans Clé requise)"
+    case googleGemini = "Google Gemini Officiel (Avec votre Clé)"
     case openAICompatible = "OpenAI / OpenRouter / Groq / DeepSeek"
     
     public var id: String { rawValue }
+    
+    public var description: String {
+        switch self {
+        case .freeBuiltIn:
+            return "Fonctionne instantanément sans aucune configuration ni clé API requise."
+        case .googleGemini:
+            return "Utilise votre clé API Google AI Studio pour Gemini 1.5 & 2.0."
+        case .openAICompatible:
+            return "Utilise n'importe quel endpoint tiers compatible (OpenRouter, Groq, Ollama, etc.)."
+        }
+    }
 }
 
-// MARK: - Gemini Supported Models (À jour 2024-2026)
+// MARK: - Gemini Supported Models
 public enum GeminiModel: String, CaseIterable, Identifiable, Codable {
     case gemini20Flash = "gemini-2.0-flash"
     case gemini15Flash = "gemini-1.5-flash"
@@ -21,196 +33,151 @@ public enum GeminiModel: String, CaseIterable, Identifiable, Codable {
     public var displayName: String {
         switch self {
         case .gemini20Flash:
-            return "Gemini 2.0 Flash (Recommandé & Ultra-rapide)"
+            return "Gemini 2.0 Flash (Recommandé • Ultra-Rapide)"
         case .gemini15Flash:
-            return "Gemini 1.5 Flash (Standard & Très Stable)"
+            return "Gemini 1.5 Flash (Standard Universel)"
         case .gemini15Pro:
-            return "Gemini 1.5 Pro (Raisonnement Approfondi & Complexe)"
+            return "Gemini 1.5 Pro (Raisonnement Élaboré)"
         case .gemini15Flash8B:
-            return "Gemini 1.5 Flash-8B (Ultra-léger & Instantané)"
+            return "Gemini 1.5 Flash-8B (Économe & Fluide)"
         case .custom:
-            return "Modèle Personnalisé (Saisie libre)"
+            return "Modèle Personnalisé"
         }
     }
     
     public var subtitle: String {
         switch self {
         case .gemini20Flash:
-            return "Dernière version officielle de Google avec vitesse et multimodalité optimales."
+            return "Dernière technologie Google avec vitesse et précision maximales."
         case .gemini15Flash:
-            return "Modèle équilibré universel pour le chat quotidien et la voix en temps réel."
+            return "Le modèle le plus stable et universel pour le chat au quotidien."
         case .gemini15Pro:
-            return "Excellente analyse pour les réflexions philosophiques et le code."
+            return "Idéal pour l'empathie poussée, la poésie et la logique complexe."
         case .gemini15Flash8B:
-            return "Consomme très peu de quota et répond avec une latence minimale."
+            return "Réponses instantanées avec latence minimale."
         case .custom:
-            return "Permet d'utiliser n'importe quel identifiant de modèle récent."
+            return "Entrez manuellement le modèle de votre choix."
         }
     }
 }
 
-// MARK: - API Request Payloads (Google Generative AI)
-public struct GeminiRequest: Codable {
-    public let contents: [GeminiContent]
-    public let systemInstruction: GeminiSystemInstruction?
-    public let generationConfig: GeminiGenerationConfig?
+// MARK: - Simple Clean Google Generative AI Request
+public struct GoogleGeminiDirectRequest: Codable {
+    public struct ContentItem: Codable {
+        public let role: String?
+        public let parts: [PartItem]
+        
+        public init(role: String? = nil, parts: [PartItem]) {
+            self.role = role
+            self.parts = parts
+        }
+    }
+    
+    public struct PartItem: Codable {
+        public let text: String?
+        public let inlineData: InlineDataItem?
+        
+        enum CodingKeys: String, CodingKey {
+            case text
+            case inlineData = "inline_data"
+        }
+        
+        public init(text: String) {
+            self.text = text
+            self.inlineData = nil
+        }
+        
+        public init(mimeType: String, base64: String) {
+            self.text = nil
+            self.inlineData = InlineDataItem(mimeType: mimeType, data: base64)
+        }
+    }
+    
+    public struct InlineDataItem: Codable {
+        public let mimeType: String
+        public let data: String
+        
+        enum CodingKeys: String, CodingKey {
+            case mimeType = "mime_type"
+            case data
+        }
+    }
+    
+    public struct SystemInstructionItem: Codable {
+        public let parts: [PartItem]
+        public init(text: String) {
+            self.parts = [PartItem(text: text)]
+        }
+    }
+    
+    public struct GenerationConfigItem: Codable {
+        public let temperature: Double
+        public let maxOutputTokens: Int
+        
+        enum CodingKeys: String, CodingKey {
+            case temperature
+            case maxOutputTokens = "max_output_tokens"
+        }
+    }
+    
+    public let contents: [ContentItem]
+    public let systemInstruction: SystemInstructionItem?
+    public let generationConfig: GenerationConfigItem?
     
     enum CodingKeys: String, CodingKey {
         case contents
         case systemInstruction = "system_instruction"
         case generationConfig = "generation_config"
     }
-    
-    public init(
-        contents: [GeminiContent],
-        systemInstruction: GeminiSystemInstruction? = nil,
-        generationConfig: GeminiGenerationConfig? = nil
-    ) {
-        self.contents = contents
-        self.systemInstruction = systemInstruction
-        self.generationConfig = generationConfig
-    }
-}
-
-public struct GeminiSystemInstruction: Codable {
-    public let parts: [GeminiPart]
-    
-    public init(text: String) {
-        self.parts = [GeminiPart(text: text)]
-    }
-}
-
-public struct GeminiContent: Codable {
-    public let role: String
-    public let parts: [GeminiPart]
-    
-    public init(role: String, parts: [GeminiPart]) {
-        self.role = role
-        self.parts = parts
-    }
-    
-    public init(role: String, text: String) {
-        self.role = role
-        self.parts = [GeminiPart(text: text)]
-    }
-}
-
-public struct GeminiPart: Codable {
-    public let text: String?
-    public let inlineData: GeminiInlineData?
-    
-    enum CodingKeys: String, CodingKey {
-        case text
-        case inlineData = "inline_data"
-    }
-    
-    public init(text: String) {
-        self.text = text
-        self.inlineData = nil
-    }
-    
-    public init(inlineData: GeminiInlineData) {
-        self.text = nil
-        self.inlineData = inlineData
-    }
-}
-
-public struct GeminiInlineData: Codable {
-    public let mimeType: String
-    public let data: String // Base64
-    
-    enum CodingKeys: String, CodingKey {
-        case mimeType = "mime_type"
-        case data
-    }
-    
-    public init(mimeType: String, data: String) {
-        self.mimeType = mimeType
-        self.data = data
-    }
-}
-
-public struct GeminiGenerationConfig: Codable {
-    public var temperature: Double?
-    public var topP: Double?
-    public var topK: Int?
-    public var maxOutputTokens: Int?
-    
-    enum CodingKeys: String, CodingKey {
-        case temperature
-        case topP
-        case topK
-        case maxOutputTokens = "max_output_tokens"
-    }
-    
-    public init(temperature: Double? = 0.8, topP: Double? = 0.95, topK: Int? = 40, maxOutputTokens: Int? = 2048) {
-        self.temperature = temperature
-        self.topP = topP
-        self.topK = topK
-        self.maxOutputTokens = maxOutputTokens
-    }
 }
 
 // MARK: - API Response Payloads
 public struct GeminiResponse: Codable {
-    public let candidates: [GeminiCandidate]?
-    public let promptFeedback: GeminiPromptFeedback?
-    public let error: GeminiAPIErrorDetail?
+    public struct Candidate: Codable {
+        public struct Content: Codable {
+            public struct Part: Codable {
+                public let text: String?
+            }
+            public let parts: [Part]?
+        }
+        public let content: Content?
+    }
+    public struct APIError: Codable {
+        public let code: Int?
+        public let message: String?
+    }
+    
+    public let candidates: [Candidate]?
+    public let error: APIError?
     
     public var textResponse: String? {
-        candidates?.first?.content?.parts.compactMap { $0.text }.joined()
+        candidates?.first?.content?.parts?.compactMap { $0.text }.joined()
     }
 }
 
-public struct GeminiCandidate: Codable {
-    public let content: GeminiContent?
-    public let finishReason: String?
-}
-
-public struct GeminiPromptFeedback: Codable {
-    public let blockReason: String?
-}
-
-public struct GeminiAPIErrorDetail: Codable {
-    public let code: Int?
-    public let message: String?
-    public let status: String?
-}
-
-// MARK: - OpenAI / OpenRouter Format (Compatibilité Universelle)
-public struct OpenAIChatRequest: Codable {
+// MARK: - OpenAI / Universal Chat Payload
+public struct UniversalChatRequest: Codable {
+    public struct Message: Codable {
+        public let role: String
+        public let content: String
+    }
     public let model: String
-    public let messages: [OpenAIMessage]
+    public let messages: [Message]
     public let temperature: Double?
-    public let stream: Bool?
-    
-    public init(model: String, messages: [OpenAIMessage], temperature: Double? = 0.8, stream: Bool? = false) {
-        self.model = model
-        self.messages = messages
-        self.temperature = temperature
-        self.stream = stream
-    }
 }
 
-public struct OpenAIMessage: Codable {
-    public let role: String
-    public let content: String
-    
-    public init(role: String, content: String) {
-        self.role = role
-        self.content = content
-    }
-}
-
-public struct OpenAIChatResponse: Codable {
+public struct UniversalChatResponse: Codable {
     public struct Choice: Codable {
         public struct Message: Codable {
             public let content: String?
         }
         public let message: Message?
-        public let delta: Message?
     }
     public let choices: [Choice]?
+    
+    public var textResponse: String? {
+        choices?.first?.message?.content
+    }
 }
 
 // MARK: - Gemini Error
@@ -225,24 +192,20 @@ public enum GeminiError: LocalizedError {
     public var errorDescription: String? {
         switch self {
         case .missingAPIKey:
-            return "Clé API introuvable. Veuillez renseigner votre clé dans les Réglages."
+            return "Aucune clé API configurée. Vous pouvez utiliser le Mode Gratuit Immédiat dans les Réglages."
         case .invalidURL:
             return "URL de l'API invalide."
         case .networkError(let error):
-            return "Erreur réseau : \(error.localizedDescription)"
+            return "Erreur de connexion : \(error.localizedDescription)"
         case .badServerResponse(let code, let message):
-            if message.contains("API_KEY_INVALID") || code == 400 && message.contains("key") {
-                return "Clé API invalide ou expirée. Veuillez vérifier votre clé sur Google AI Studio."
-            } else if message.contains("not found") || code == 404 {
-                return "Modèle temporairement indisponible ou retiré par Google. Basculement automatique en cours."
-            } else if code == 429 {
-                return "Quota de requêtes dépassé pour cette clé. Patientez une minute ou utilisez une autre clé."
+            if message.contains("API_KEY_INVALID") {
+                return "Clé Google Gemini invalide. Activez le Mode Gratuit dans les Réglages pour continuer sans clé."
             }
-            return "Erreur API [\(code)]: \(message)"
+            return "Réponse de l'API [\(code)]: \(message)"
         case .decodingError(let error):
-            return "Erreur de traitement des données : \(error.localizedDescription)"
+            return "Erreur de format : \(error.localizedDescription)"
         case .emptyResponse:
-            return "Réponse vide reçue de l'IA."
+            return "L'IA a renvoyé une réponse vide."
         }
     }
 }

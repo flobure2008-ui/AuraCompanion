@@ -9,47 +9,47 @@ public struct ChatView: View {
     public var body: some View {
         NavigationStack {
             ZStack {
-                appState.theme.backgroundGradient
-                    .ignoresSafeArea()
+                // Fond liquide animé dynamique
+                LiquidBackgroundView(
+                    primaryColor: appState.theme.primaryAccent,
+                    secondaryColor: appState.theme.secondaryAccent
+                )
                 
                 VStack(spacing: 0) {
-                    // Header personnalisé
-                    chatHeaderView
+                    // Header Verre Liquide
+                    liquidHeader
                     
-                    // Alerte nouveau souvenir appris
+                    // Alerte nouveau souvenir mémorisé
                     if let memoryAlert = appState.newlyLearnedMemoryAlert {
                         HStack(spacing: 8) {
                             Image(systemName: "sparkles")
                                 .foregroundColor(.yellow)
                             Text(memoryAlert)
-                                .font(.system(size: 13, weight: .medium))
+                                .font(.system(size: 13, weight: .semibold))
                                 .foregroundColor(.white)
                             Spacer()
                             Button {
-                                withAnimation {
-                                    appState.newlyLearnedMemoryAlert = nil
-                                }
+                                withAnimation { appState.newlyLearnedMemoryAlert = nil }
                             } label: {
                                 Image(systemName: "xmark")
                                     .font(.system(size: 12))
                                     .foregroundColor(.white.opacity(0.7))
                             }
                         }
-                        .padding(.horizontal, 14)
-                        .padding(.vertical, 8)
-                        .background(Color.purple.opacity(0.3))
-                        .cornerRadius(12)
                         .padding(.horizontal, 16)
-                        .padding(.bottom, 6)
+                        .padding(.vertical, 10)
+                        .liquidGlass(cornerRadius: 16, glowColor: .yellow, opacity: 0.15)
+                        .padding(.horizontal, 16)
+                        .padding(.top, 8)
                         .transition(.move(edge: .top).combined(with: .opacity))
                     }
                     
-                    // Liste des messages
+                    // Flux de messages
                     ScrollViewReader { proxy in
                         ScrollView {
-                            LazyVStack(spacing: 12) {
+                            LazyVStack(spacing: 14) {
                                 if appState.currentSession.messages.isEmpty {
-                                    emptyConversationStarters
+                                    liquidEmptyStarters
                                 } else {
                                     ForEach(appState.currentSession.messages) { message in
                                         MessageBubbleView(
@@ -63,11 +63,11 @@ public struct ChatView: View {
                                     }
                                 }
                             }
-                            .padding(.vertical, 12)
+                            .padding(.vertical, 16)
                         }
                         .onChange(of: appState.currentSession.messages.count) { _ in
                             if let lastId = appState.currentSession.messages.last?.id {
-                                withAnimation {
+                                withAnimation(.spring(response: 0.35, dampingFraction: 0.7)) {
                                     proxy.scrollTo(lastId, anchor: .bottom)
                                 }
                             }
@@ -79,7 +79,7 @@ public struct ChatView: View {
                         }
                     }
                     
-                    // Barre de saisie
+                    // Barre de saisie Verre Liquide
                     ChatInputBar(viewModel: viewModel, appState: appState)
                 }
             }
@@ -103,198 +103,145 @@ public struct ChatView: View {
         }
     }
     
-    // MARK: - Header
-    private var chatHeaderView: some View {
+    // MARK: - Header Verre Liquide
+    private var liquidHeader: some View {
         HStack(spacing: 12) {
-            CompanionAvatarThumbnail(profile: appState.companionProfile, size: 42)
+            // Orbe miniature vivant
+            LivingCompanionOrb(
+                mood: appState.companionProfile.currentMood,
+                isSpeaking: viewModel.playbackService.isSpeaking,
+                isListening: viewModel.speechService.isRecording,
+                audioLevel: viewModel.speechService.audioLevel,
+                size: 44
+            )
             
-            VStack(alignment: .leading, spacing: 2) {
+            VStack(alignment: .leading, spacing: 3) {
                 HStack(spacing: 6) {
                     Text(appState.companionProfile.name)
-                        .font(.system(size: 18, weight: .bold))
+                        .font(.system(size: 19, weight: .bold))
                         .foregroundColor(.white)
                     
-                    // Mood Tag
-                    HStack(spacing: 3) {
+                    // Capsule d'humeur en verre liquide
+                    HStack(spacing: 4) {
                         Text(appState.companionProfile.currentMood.emoji)
                         Text(appState.companionProfile.currentMood.rawValue)
-                            .font(.system(size: 10, weight: .medium))
+                            .font(.system(size: 10, weight: .semibold))
+                            .foregroundColor(.white.opacity(0.9))
                     }
-                    .padding(.horizontal, 6)
-                    .padding(.vertical, 2)
-                    .background(Color.white.opacity(0.12))
-                    .cornerRadius(8)
+                    .padding(.horizontal, 8)
+                    .padding(.vertical, 3)
+                    .liquidGlassPill(glowColor: appState.companionProfile.currentMood.accentColors.first ?? .purple)
                 }
                 
-                Text(appState.companionProfile.title)
-                    .font(.system(size: 11))
-                    .foregroundColor(.white.opacity(0.6))
+                Text(appState.provider == .freeBuiltIn ? "Mode Gratuit Actif (Sans Clé)" : appState.companionProfile.title)
+                    .font(.system(size: 11, weight: .medium))
+                    .foregroundColor(appState.provider == .freeBuiltIn ? .green.opacity(0.9) : .white.opacity(0.6))
                     .lineLimit(1)
             }
             
             Spacer()
             
-            // Bouton Appel Vocal
+            // Bouton Appel Vocal Verre Liquide
             Button {
                 HapticsService.medium()
                 showVoiceCall = true
             } label: {
-                Image(systemName: "phone.bubble.fill")
-                    .font(.system(size: 17))
-                    .foregroundColor(.white)
-                    .frame(width: 38, height: 38)
-                    .background(
-                        LinearGradient(
-                            colors: [Color.green.opacity(0.8), Color.teal.opacity(0.8)],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color(hex: "00F0FF"), Color(hex: "9D5CFF")],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
                         )
-                    )
-                    .clipShape(Circle())
+                        .frame(width: 42, height: 42)
+                        .shadow(color: Color(hex: "00F0FF").opacity(0.4), radius: 10)
+                    
+                    Image(systemName: "phone.bubble.fill")
+                        .font(.system(size: 18))
+                        .foregroundColor(.white)
+                }
             }
+            .buttonStyle(LiquidButtonStyle())
             
-            // Bouton Sessions
+            // Bouton Historique
             Button {
                 HapticsService.light()
                 showSessionList = true
             } label: {
                 Image(systemName: "clock.arrow.circlepath")
                     .font(.system(size: 17))
-                    .foregroundColor(.white.opacity(0.8))
-                    .frame(width: 38, height: 38)
-                    .background(Color.white.opacity(0.08))
-                    .clipShape(Circle())
+                    .foregroundColor(.white.opacity(0.85))
+                    .frame(width: 42, height: 42)
+                    .liquidGlass(cornerRadius: 21, glowColor: .white.opacity(0.2))
             }
+            .buttonStyle(LiquidButtonStyle())
         }
         .padding(.horizontal, 16)
-        .padding(.vertical, 10)
-        .glassCard(cornerRadius: 0)
+        .padding(.vertical, 12)
+        .liquidGlass(cornerRadius: 0, glowColor: appState.theme.primaryAccent, opacity: 0.1)
     }
     
-    // MARK: - Suggestions de démarrage
-    private var emptyConversationStarters: some View {
-        VStack(spacing: 16) {
-            Spacer().frame(height: 30)
+    // MARK: - Suggestions Verre Liquide
+    private var liquidEmptyStarters: some View {
+        VStack(spacing: 20) {
+            Spacer().frame(height: 20)
             
-            CompanionAvatarThumbnail(profile: appState.companionProfile, size: 70)
+            LivingCompanionOrb(
+                mood: appState.companionProfile.currentMood,
+                size: 120
+            )
             
-            Text("Engagez la conversation avec \(appState.companionProfile.name)")
-                .font(.headline)
-                .foregroundColor(.white)
-            
-            Text(appState.companionProfile.bio)
-                .font(.subheadline)
-                .foregroundColor(.white.opacity(0.7))
-                .multilineTextAlignment(.center)
-                .padding(.horizontal, 30)
-            
-            VStack(spacing: 10) {
-                starterButton(icon: "sparkles", text: "Dis-moi une réflexion inspirante sur l'univers")
-                starterButton(icon: "target", text: "Aide-moi à organiser mes objectifs de la semaine")
-                starterButton(icon: "face.smiling", text: "Raconte-moi une anecdote surprenante")
+            VStack(spacing: 6) {
+                Text(appState.companionProfile.name)
+                    .font(.system(size: 26, weight: .bold))
+                    .foregroundColor(.white)
+                
+                Text(appState.companionProfile.bio)
+                    .font(.system(size: 14))
+                    .foregroundColor(.white.opacity(0.75))
+                    .multilineTextAlignment(.center)
+                    .lineSpacing(3)
+                    .padding(.horizontal, 32)
             }
-            .padding(.top, 10)
-            .padding(.horizontal, 24)
+            
+            VStack(spacing: 12) {
+                liquidStarterButton(icon: "sparkles", text: "Dis-moi ce que tu ressens en ce moment")
+                liquidStarterButton(icon: "brain.head.profile", text: "Que te rappelles-tu sur moi jusqu'ici ?")
+                liquidStarterButton(icon: "lightbulb.fill", text: "Propose-moi une idée créative pour ma journée")
+            }
+            .padding(.horizontal, 20)
+            .padding(.top, 8)
         }
     }
     
-    private func starterButton(icon: String, text: String) -> some View {
+    private func liquidStarterButton(icon: String, text: String) -> some View {
         Button {
             viewModel.inputText = text
             Task {
                 await viewModel.sendMessage(appState: appState)
             }
         } label: {
-            HStack(spacing: 10) {
+            HStack(spacing: 12) {
                 Image(systemName: icon)
                     .foregroundColor(appState.theme.primaryAccent)
+                    .font(.system(size: 16))
+                
                 Text(text)
-                    .font(.system(size: 13.5, weight: .medium))
-                    .foregroundColor(.white.opacity(0.9))
+                    .font(.system(size: 14, weight: .medium))
+                    .foregroundColor(.white.opacity(0.92))
+                
                 Spacer()
+                
                 Image(systemName: "arrow.up.right")
                     .font(.system(size: 12))
                     .foregroundColor(.white.opacity(0.4))
             }
-            .padding(.horizontal, 16)
-            .padding(.vertical, 12)
-            .glassCard(cornerRadius: 14)
+            .padding(.horizontal, 18)
+            .padding(.vertical, 14)
+            .liquidGlass(cornerRadius: 18, glowColor: appState.theme.primaryAccent, opacity: 0.08)
         }
-    }
-}
-
-// MARK: - Session History Sheet
-public struct SessionHistorySheet: View {
-    @EnvironmentObject var appState: AppState
-    @Environment(\.dismiss) var dismiss
-    
-    public var body: some View {
-        NavigationStack {
-            ZStack {
-                appState.theme.backgroundGradient.ignoresSafeArea()
-                
-                List {
-                    Section {
-                        Button {
-                            _ = appState.createNewSession()
-                            HapticsService.medium()
-                            dismiss()
-                        } label: {
-                            HStack {
-                                Image(systemName: "plus.bubble.fill")
-                                    .foregroundColor(appState.theme.primaryAccent)
-                                Text("Nouvelle conversation")
-                                    .fontWeight(.semibold)
-                                    .foregroundColor(.white)
-                            }
-                        }
-                        .listRowBackground(Color.white.opacity(0.08))
-                    }
-                    
-                    Section("Conversations précédentes") {
-                        ForEach(appState.sessions) { session in
-                            Button {
-                                appState.currentSessionId = session.id
-                                HapticsService.light()
-                                dismiss()
-                            } label: {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    HStack {
-                                        Text(session.title)
-                                            .font(.system(size: 15, weight: .semibold))
-                                            .foregroundColor(.white)
-                                        Spacer()
-                                        if session.id == appState.currentSessionId {
-                                            Image(systemName: "checkmark")
-                                                .foregroundColor(appState.theme.primaryAccent)
-                                        }
-                                    }
-                                    Text(session.previewSnippet)
-                                        .font(.system(size: 12))
-                                        .foregroundColor(.white.opacity(0.6))
-                                        .lineLimit(1)
-                                }
-                                .padding(.vertical, 4)
-                            }
-                            .listRowBackground(Color.white.opacity(0.06))
-                        }
-                        .onDelete { indexSet in
-                            for index in indexSet {
-                                appState.deleteSession(appState.sessions[index])
-                            }
-                        }
-                    }
-                }
-                .scrollContentBackground(.hidden)
-            }
-            .navigationTitle("Conversations")
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) {
-                    Button("Fermer") { dismiss() }
-                        .foregroundColor(.white)
-                }
-            }
-        }
+        .buttonStyle(LiquidButtonStyle())
     }
 }
