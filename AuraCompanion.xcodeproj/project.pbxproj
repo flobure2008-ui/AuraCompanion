@@ -43,6 +43,7 @@
 		B134 /* LiquidGlass.swift in Sources */ = {isa = PBXBuildFile; fileRef = F135 /* LiquidGlass.swift */; };
 		B135 /* LiquidBackgroundView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F136 /* LiquidBackgroundView.swift */; };
 		B136 /* LivingCompanionOrb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F137 /* LivingCompanionOrb.swift */; };
+		B137 /* CompanionAvatarThumbnail.swift in Sources */ = {isa = PBXBuildFile; fileRef = F138 /* CompanionAvatarThumbnail.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -84,6 +85,7 @@
 		F135 /* LiquidGlass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidGlass.swift; sourceTree = "<group>"; };
 		F136 /* LiquidBackgroundView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LiquidBackgroundView.swift; sourceTree = "<group>"; };
 		F137 /* LivingCompanionOrb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LivingCompanionOrb.swift; sourceTree = "<group>"; };
+		F138 /* CompanionAvatarThumbnail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CompanionAvatarThumbnail.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -257,6 +259,7 @@
 				F135 /* LiquidGlass.swift */,
 				F136 /* LiquidBackgroundView.swift */,
 				F137 /* LivingCompanionOrb.swift */,
+				F138 /* CompanionAvatarThumbnail.swift */,
 			);
 			path = Components;
 			sourceTree = "<group>";
@@ -365,6 +368,7 @@
 				B134 /* LiquidGlass.swift in Sources */,
 				B135 /* LiquidBackgroundView.swift in Sources */,
 				B136 /* LivingCompanionOrb.swift in Sources */,
+				B137 /* CompanionAvatarThumbnail.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

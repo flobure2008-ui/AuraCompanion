@@ -25,6 +25,7 @@ Package.resolved
 *.ipa
 *.app
 Payload/
+generate_icon.py
 
 # OS
 .DS_Store
